@@ -1,7 +1,7 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, ForeignKey, Date
-from clients import Client
-from rooms import Rooms
+from Domain.clients import Client
+from Domain.rooms import Rooms
 
 Base = declarative_base()
 
