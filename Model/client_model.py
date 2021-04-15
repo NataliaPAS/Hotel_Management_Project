@@ -16,13 +16,13 @@ class ClientSQLModel:
         return self.__my_session.query(Client).all()
 
     def update_client(self, client_id, first_name=None, last_name=None, email=None):
-        my_client = self.__my_session.query(Client).filter_by(client_id=client_id).first
+        my_client = self.__my_session.query(Client).filter_by(client_id=client_id).first()
         if my_client:
             self.__my_session.query(Client).filter_by(client_id=client_id).update({
                 "first_name": f"{first_name or my_client.first_name}",
                 "last_name": f"{last_name or my_client.last_name}",
                 "email": f"{email or my_client.email}",
-                 })
+            })
             self.__my_session.commit()
 
     def delete_client(self, client_id):
@@ -37,18 +37,17 @@ class ClientSQLModel:
         my_client = self.__my_session.query(Client).filter_by(client_id=client_id).first()
         return True if my_client else False
 
-    if __name__ == "__main__":
-        from sqlalchemy import create_engine
 
-        engine = create_engine('mysql+pymysql://root:@localhost:3306/Hotel_Management', echo=False)
-        model = ClientSQLModel(engine=engine)
+if __name__ == "__main__":
+    from sqlalchemy import create_engine
 
-        model.create_client(123, "alin", "popescu", "email@test.com")
-        model.update_client(321,"natalia", "ciolacu", "test@email.com")
+    engine = create_engine('mysql+pymysql://root:@localhost:3306/Hotel_Management', echo=False)
+    model = ClientSQLModel(engine=engine)
 
-        for client in model.create_client():
-            print(client)
+    model.create_client(321, "alin", "popescu", "email@test.com")
+    model.update_client(321, "natalia", "ciolacu", "test@email.com")
 
-        model.delete_client(321)
+    for client in model.read_client():
+        print(client)
 
-
+    # model.delete_client(321)
