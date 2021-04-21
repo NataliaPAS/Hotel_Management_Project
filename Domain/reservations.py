@@ -1,5 +1,7 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, ForeignKey, Date
+from sqlalchemy.sql.functions import current_date
+
 from Domain.clients import Client
 from Domain.rooms import Rooms
 
@@ -11,7 +13,7 @@ class Reservations(Base):
     reservation_id = Column(Integer, primary_key=True, autoincrement=True)
     client_id = Column(Integer, ForeignKey(Client.client_id), nullable=False)
     room_number = Column(Integer, ForeignKey(Rooms.room_number), nullable=False)
-    start_date = Column(Date, nullable=False)
+    start_date = Column(Date, nullable=False, default=current_date)
     end_date = Column(Date, nullable=False)
 
     def __str__(self):
